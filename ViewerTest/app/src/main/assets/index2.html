@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<title>TRANSCRIPTION SERVICE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Custom CSS -->
+<link href="css/viewer2.css" rel="stylesheet">
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/font-family.css">
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<!-- Javascript -->
+<script src="js/jscolor.js"></script>
+<script src="js/screenfull.js"></script>
+<script src="js/ScriptViewer.js"></script>
+<!-- jQuery -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- OTHER -->
+<!-- <script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
+<script src="bower_components/adapter.js/release/adapter.js"></script> -->
+<script src="bower_components/version-old/kurento-utils/js/kurento-utils.js"></script>
+<script src="bower_components/version-old/adapter.js/adapter.js"></script>
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+#captioned {
+  font-family: FreesiaUPC;
+}
+</style>
+<body>
+
+<!-- Menu -->
+<nav class="w3-sidenav w3-red w3-animate-left w3-collapse w3-top w3-large" style="z-index:3;width:360px;font-weight:bold" id="mySidenav">
+    <div class="w3-container w3-padding-16">
+        <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-closebtn w3-hover-text-red"></i>
+        <div style="text-align: center;">
+            <h3><b><a href="index.html" style="background: no-repeat;">TRANSCRIPTION</a></b></h3>
+            <input id="searchRooms" class="w3-input w3-border" style="background: rgba(157, 129, 195, 0.03); color: white;" type="text" placeholder="ค้นหาห้อง...">
+        </div>
+    </div>
+    <ul style="list-style-type:none;padding-left: 0;" id="MenuViewer"></ul>
+    <!-- Error can't get Rooms -->
+    <div id="errorGetdata" class="w3-container" style="text-align: center;display: none;">
+        <h1><b>อุปส์!</b></h1>
+        <p>เกิดข้อผิดพลาดระหว่างการเชื่อมต่อ โปรดลองใหม่อีกครั้ง</p>
+        <button id="reconnectRooms">ลองใหม่</button>
+    </div>
+</nav>
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding" style="z-index:3;">
+    <a href="javascript:void(0)" class="w3-btn w3-red w3-border w3-border-white w3-margin-right" onclick="w3_open()">☰</a>
+    <span>TRANSCRIPTION</span>
+</header>
+
+<!-- Overlay effect when opening sidenav on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:360px;margin-right:300px">
+    <!-- Push down content on small screens -->
+    <div class="w3-hide-large" style="margin-top:70px"></div>
+
+    <!-- Header -->
+    <header class="w3-container">
+        <h3><b id="title"></b></h3>
+        <div id="time"></div>
+    </header>
+
+    <!-- before viewer -->
+    <section id="beforeStreaming" style="display: none;">
+        <div class="w3-container">
+            <div class="w3-row">
+                <div class="w3-col m12">
+                    <div id="time2" style="color: green; font-size: 16px;"></div>
+                    <div><i class="fa fa-check" style="color: green;" aria-hidden="true"></i> ภาพเคลื่อนไหวเสียงและคำบรรยาย</div>
+                    <button id="startViewer" class="w3-button w3-ripple w3-red w3-hover-black">เข้าชมตอนนี้</button>
+                </div>
+            </div><hr>
+        </div>
+    </section>
+    <!-- end before viewer -->
+
+    <!-- FOR VIDEO + TEXT-->
+    <section id="live-container" style="background-color: black; position: relative;width: 100%; height: 100%;display: none;">
+        <div id="statusStreaming" class="w3-display-topleft" style="color: white;z-index: 1;background-color: rgba(217,83,79,1);padding: 2px 6px 0 6px;"></div>
+        <div class="w3-display-topright" style="z-index: 1;"><button id="terminate_viewer" class="btn btn-danger">END</button></div>
+        <video id="video" style="width: 100%;height: 550px;" autoplay>
+            <!-- <source src="movie.mp4" type="video/mp4"> -->
+        </video>
+        <div id="captioned" style="font-size: 30px;pointer-events: none;" class="captioned-default"></div>
+        <div id="option-video-mode" class="w3-display-bottomright" style=" bottom: 3%;right: 3%">
+            <div class="w3-row">
+                <select class="w3-hide-small" id="viewer-mode2" style="display: none;">
+                    <option value="video-text">ภาพเคลื่อนไหวเสียงและคำบรรยาย</option>
+                    <option value="text-only">คำบรรยาย</option>
+                </select>
+                <input class="w3-hide-small" id="input-font2" type="text" maxlength="3" list="size" size="1" style="display: none;">
+                <button class="w3-hide-small" id="inc-font2" style="border: none; cursor: pointer;display: none;" onclick="settingIncFont()">A+</button>
+                <button class="w3-hide-small" id="dec-font2" style="border: none; cursor: pointer;display: none;" onclick="settingDecFont()">A-</button>
+                <i id="Full" style="cursor: pointer;color: white;" class="fa fa-expand fa-lg" aria-hidden="true"></i>
+                <i id="exit" style="cursor: pointer;color: white; display: none;" class="fa fa-compress fa-lg" aria-hidden="true"></i>
+            </div>
+        </div>
+    </section>
+    <!-- END FOR VIDEO + TEXT-->
+
+    <!-- OPTIONS MODE -->
+    <div id="options" style="text-align: right;background-color: rgb(245, 245, 245);margin-bottom: 1%;display: none;">
+        <div class="w3-row">
+            <i id="btnSaveText" style="cursor: pointer;" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+            <select id="viewer-mode">
+                <option value="video-text">ภาพเคลื่อนไหวเสียงและคำบรรยาย</option>
+                <option value="text-only">คำบรรยาย</option>
+            </select>
+            <select id="change-font-family" onchange="settingFontFamily(this.value)">
+                <option value="FreesiaUPC">FreesiaUPC</option>
+                <option value="TH Niramit AS">Th Niramit AS</option>
+                <option value="Angsana New">Angsana New</option>
+                <option value="Cordia New">Cordia New</option>
+            </select>
+            <button id="set_font_color" class="jscolor {valueElement:null,value: '000000', onFineChange:'setTextColorFont(this)'}" style="border: none;cursor: pointer;">A</button>
+            <button id="set_background_color" class="jscolor {valueElement:null,value: '000000', onFineChange:'setTextColorBackground(this)'}" style="border: none;cursor: pointer;">&nbsp;&nbsp;</button>
+            <input type="text" maxlength="3" list="size" size="1" id="input-font">
+            <datalist id="size">
+                <option value="10"></option>
+                <option value="16"></option>
+                <option value="18"></option>
+                <option value="22"></option>
+                <option value="24"></option>
+                <option value="26"></option>
+                <option value="28"></option>
+                <option value="36"></option>
+                <option value="48"></option>
+                <option value="72"></option>
+                <option value="84"></option>
+                <option value="96"></option>
+                <option value="100"></option>
+            </datalist>
+            <button id="inc-font" style="border: none; cursor: pointer;" onclick="settingIncFont()">A+</button>
+            <button id="dec-font" style="border: none; cursor: pointer;" onclick="settingDecFont()">A-</button>
+        </div>
+    </div>
+    <!-- Description -->
+    <div class="w3-container" id="description" style="margin-top:0px;font-size: 24px"></div>
+    <!-- End page content -->
+    <script src="js/jquery.cookie.js"></script>
+</div>
+</body>
+</html>
