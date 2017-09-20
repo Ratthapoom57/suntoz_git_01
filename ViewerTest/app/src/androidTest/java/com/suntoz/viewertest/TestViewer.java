@@ -32,24 +32,9 @@ public class TestViewer extends ActivityInstrumentationTestCase2 {
         super.tearDown();
     }
 
-    public void testCase1() throws Exception{
-        solo.unlockScreen();
-        WebView webView = (WebView) solo.getView(myview);
-        solo.waitForView(webView, 2000, false);
-        solo.sleep(2000);
-        solo.clickOnWebElement(By.id("299"));
-        solo.clickOnWebElement(By.id("startViewer"));
-        solo.scrollDown();
-        solo.scrollUp();
-        solo.sleep(2000);
-        solo.clickOnWebElement(By.id("terminate_viewer"));
-        solo.sleep(2000);
-        solo.goBack();
-        solo.sleep(2000);
-        solo.sendKey(Solo.CLOSED);
-    }
+    /// room select
 
-    public void testCase2() throws Exception{
+    public void testCase1() throws Exception {
         solo.unlockScreen();
         WebView webView = (WebView) solo.getView(myview);
         solo.waitForView(webView, 2000, false);
@@ -58,7 +43,7 @@ public class TestViewer extends ActivityInstrumentationTestCase2 {
         solo.clickOnWebElement(By.id("startViewer"));
         solo.scrollDown();
         solo.scrollUp();
-        solo.sleep(2000);
+        solo.sleep(5000);
         solo.clickOnWebElement(By.id("terminate_viewer"));
         solo.sleep(2000);
         solo.goBack();
@@ -66,19 +51,33 @@ public class TestViewer extends ActivityInstrumentationTestCase2 {
         solo.sendKey(Solo.CLOSED);
     }
 
-    public void testCase3() throws Exception{
+    public void testCase2() throws Exception {
         solo.unlockScreen();
         WebView webView = (WebView) solo.getView(myview);
         solo.waitForView(webView, 2000, false);
         solo.sleep(2000);
-        solo.clickOnWebElement(By.id("301"));
-        solo.scrollDown();
-        solo.scrollUp();
-        solo.sleep(2000);
+        solo.clickOnWebElement(By.id("313"));
         solo.clickOnWebElement(By.id("startViewer"));
         solo.scrollDown();
         solo.scrollUp();
+        solo.sleep(5000);
+        solo.clickOnWebElement(By.id("terminate_viewer"));
         solo.sleep(2000);
+        solo.goBack();
+        solo.sleep(2000);
+        solo.sendKey(Solo.CLOSED);
+    }
+
+    public void testCase3() throws Exception {
+        solo.unlockScreen();
+        WebView webView = (WebView) solo.getView(myview);
+        solo.waitForView(webView, 2000, false);
+        solo.sleep(2000);
+        solo.clickOnWebElement(By.id("315"));
+        solo.clickOnWebElement(By.id("startViewer"));
+        solo.scrollDown();
+        solo.scrollUp();
+        solo.sleep(5000);
         solo.clickOnWebElement(By.id("terminate_viewer"));
         solo.sleep(2000);
         solo.goBack();
@@ -86,30 +85,9 @@ public class TestViewer extends ActivityInstrumentationTestCase2 {
         solo.sendKey(Solo.CLOSED);
     }
 /* -----------------------------------------------------------------------------------------------*/
+    //search room
 
-    public void testCase4() throws Exception{
-        solo.unlockScreen();
-        WebView webView = (WebView) solo.getView(myview);
-        solo.waitForView(webView, 2000, false);
-        solo.sleep(2000);
-        solo.clickOnWebElement(By.id("searchRooms"));
-        solo.enterTextInWebElement(By.id("searchRooms"), "bot");
-        solo.sleep(2000);
-        solo.sendKey(Solo.ENTER);
-        solo.sleep(2000);
-        solo.clickOnWebElement(By.id("299"));
-        solo.clickOnWebElement(By.id("startViewer"));
-        solo.scrollDown();
-        solo.scrollUp();
-        solo.sleep(2000);
-        solo.clickOnWebElement(By.id("terminate_viewer"));
-        solo.sleep(2000);
-        solo.goBack();
-        solo.sleep(2000);
-        solo.sendKey(Solo.CLOSED);
-    }
-
-    public void testCase5() throws Exception{
+    public void testCase4() throws Exception {
         solo.unlockScreen();
         WebView webView = (WebView) solo.getView(myview);
         solo.waitForView(webView, 2000, false);
@@ -119,11 +97,12 @@ public class TestViewer extends ActivityInstrumentationTestCase2 {
         solo.sleep(2000);
         solo.sendKey(Solo.ENTER);
         solo.sleep(2000);
+        solo.hideSoftKeyboard();
         solo.clickOnWebElement(By.id("300"));
         solo.clickOnWebElement(By.id("startViewer"));
         solo.scrollDown();
         solo.scrollUp();
-        solo.sleep(2000);
+        solo.sleep(5000);
         solo.clickOnWebElement(By.id("terminate_viewer"));
         solo.sleep(2000);
         solo.goBack();
@@ -131,17 +110,41 @@ public class TestViewer extends ActivityInstrumentationTestCase2 {
         solo.sendKey(Solo.CLOSED);
     }
 
-    public void testCase6() throws Exception{
+    public void testCase5() throws Exception {
         solo.unlockScreen();
         WebView webView = (WebView) solo.getView(myview);
         solo.waitForView(webView, 2000, false);
         solo.sleep(2000);
         solo.clickOnWebElement(By.id("searchRooms"));
-        solo.enterTextInWebElement(By.id("searchRooms"), "ace");
+        solo.enterTextInWebElement(By.id("searchRooms"), "ห้องทดสอบคำบรรยายแทนเสียง");
         solo.sleep(2000);
         solo.sendKey(Solo.ENTER);
         solo.sleep(2000);
-        solo.clickOnWebElement(By.id("301"));
+        solo.hideSoftKeyboard();
+        solo.clickOnWebElement(By.id("313"));
+        solo.clickOnWebElement(By.id("startViewer"));
+        solo.scrollDown();
+        solo.scrollUp();
+        solo.sleep(5000);
+        solo.clickOnWebElement(By.id("terminate_viewer"));
+        solo.sleep(2000);
+        solo.goBack();
+        solo.sleep(2000);
+        solo.sendKey(Solo.CLOSED);
+    }
+
+    public void testCase6() throws Exception {
+        solo.unlockScreen();
+        WebView webView = (WebView) solo.getView(myview);
+        solo.waitForView(webView, 2000, false);
+        solo.sleep(2000);
+        solo.clickOnWebElement(By.id("searchRooms"));
+        solo.enterTextInWebElement(By.id("searchRooms"), "Thai PBS");
+        solo.sleep(2000);
+        solo.sendKey(Solo.ENTER);
+        solo.sleep(2000);
+        solo.hideSoftKeyboard();
+        solo.clickOnWebElement(By.id("315"));
         solo.scrollDown();
         solo.scrollUp();
         solo.sleep(2000);
@@ -155,4 +158,59 @@ public class TestViewer extends ActivityInstrumentationTestCase2 {
         solo.sleep(2000);
         solo.sendKey(Solo.CLOSED);
     }
+/*------------------------------------------------------------------------------------------------*/
+    //search room fail
+
+    public void testCase7() throws Exception {
+        solo.unlockScreen();
+        WebView webView = (WebView) solo.getView(myview);
+        solo.waitForView(webView, 2000, false);
+        solo.sleep(2000);
+        solo.clickOnWebElement(By.id("searchRooms"));
+        solo.enterTextInWebElement(By.id("searchRooms"), "aa");
+        solo.sleep(2000);
+        solo.sendKey(Solo.ENTER);
+        solo.sleep(2000);
+        solo.hideSoftKeyboard();
+        solo.clearTextInWebElement(By.id("searchRooms"));
+        solo.sleep(2000);
+        testCase4();
+    }
+
+    public void testCase8() throws Exception {
+        solo.unlockScreen();
+        WebView webView = (WebView) solo.getView(myview);
+        solo.waitForView(webView, 2000, false);
+        solo.sleep(2000);
+        solo.clickOnWebElement(By.id("searchRooms"));
+        solo.enterTextInWebElement(By.id("searchRooms"), "ห้องเสียง");
+        solo.sleep(2000);
+        solo.sendKey(Solo.ENTER);
+        solo.sleep(2000);
+        solo.hideSoftKeyboard();
+        solo.clearTextInWebElement(By.id("searchRooms"));
+        solo.sleep(2000);
+        testCase5();
+    }
+
+    public void testCase9() throws Exception {
+        solo.unlockScreen();
+        WebView webView = (WebView) solo.getView(myview);
+        solo.waitForView(webView, 2000, false);
+        solo.sleep(2000);
+        solo.clickOnWebElement(By.id("searchRooms"));
+        solo.enterTextInWebElement(By.id("searchRooms"), "thaipbs");
+        solo.sleep(2000);
+        solo.sendKey(Solo.ENTER);
+        solo.sleep(2000);
+        solo.hideSoftKeyboard();
+        solo.clearTextInWebElement(By.id("searchRooms"));
+        solo.sleep(2000);
+        testCase6();
+    }
+
+
+    ///
+
+
 }
